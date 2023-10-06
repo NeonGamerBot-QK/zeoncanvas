@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeon | Canvas</title>
+    
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+</head>
+<body>
+    <div class="hero min-h-screen bg-base-200">
+        <div class="hero-content text-center">
+          <div class="max-w-md">
+            <h1 class="text-5xl font-bold">Zeons Canvas</h1>
+           <p>Edit this square below:</p>
+           <div class="nav p-5 m-5 grid grid-cols-1">
+            <button class="clear btn btn-danger">clear</button>
+            <button class="save btn btn-primary">save</button>
+            <input type="color" class="scale-hover"  id="color">Color
+        </div>
+            <canvas class="py-6" id="canvas"height="1085" width="640" >
+                Ur browser does not support canvas, please go to <a href="/images.html">images</a> version.
+                </canvas>
+              
+          </div>
+        </div>
+      </div>
+  
+<script>
+    function getMousePos(canvas, event) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top,
+  };
+}
+
+// Function to check whether a point is inside a rectangle
+function isInside(pos, rect) {
+  return pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y
+}
+     let x = 0;
+        let y = 0;
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+    window.onload = async (e) => {
+        // e.preventDefault();
+
+     let id = location.pathname.split('/')[location.pathname.split('/').length - 1]
+        function handleThis(i) {
+         
+                let img = new Image()   
+        img.src = `/out/${i}.png`
+        img.onload = () => {
+            canvas.height = canvas.width * (img.height / img.width);
+   // step 1 - resize to 50%
+   const oc = document.createElement('canvas'),
+        octx = oc.getContext('2d');
+
+    oc.width = img.width * 0.5;
+    oc.height = img.height * 0.5;
+    octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+    // step 2
+    // octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
+    // octx.clearRect(0, 0, canvas.width, canvas.height)
+    // step 3, resize to final size
+    ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,
+    0, 0, canvas.width, canvas.height);
+    
+        }
+        
+    
+}
+handleThis(id)
+let clearBtn = document.querySelector(".clear")
+clearBtn.addEventListener("click", () => {
+    if(!confirm("Are you sure you want to clear it?")) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+})
+let saveBtn = document.querySelector(".save")
+saveBtn.addEventListener("click", () => {
+//     let data = canvas.toDataURL("image/png")
+//     let a = document.createElement("a")
+//     a.href = data
+//     // what ever name you specify here
+//     // the image will be saved as that name
+//     a.download = prompt("Name of File?") || `sketch-${new Date().toISOString()}.png`
+//     a.click()
+//     a.remove()
+const str = `
+//WEBEDITOROVERRIDE
+// the line above should not be removed in any case
+// that line specifies that it was from the WebUI
+// this code was written from the WEBuI Editor
+module.exports = (ctx) => {
+    ctx.fillStyle = "${ctx.fillStyle}"
+    ctx.rect(0, 0, 64,64)
+    ctx.fill()
+}`
+
+// alert
+alert(str)
+})
+const color = document.getElementById("color");
+color.addEventListener("input", (e) => {
+    // alert("change")
+ctx.fillStyle = e.target.value
+ctx.rect(0, 0, canvas.width, canvas.height)
+ctx.fill()
+})
+    }
+</script>
+</body>
+</html>

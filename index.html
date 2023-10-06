@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeon | Canvas</title>
+    
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+</head>
+<body>
+    <div class="hero min-h-screen bg-base-200">
+        <div class="hero-content text-center">
+          <div class="max-w-md">
+            <h1 class="text-5xl font-bold">Zeons Canvas</h1>
+           <p>your over square: <span id="squareId">null</span>, click one to edit the square</p>
+            <canvas class="py-6" id="canvas"height="1085" width="640" >
+                Ur browser does not support canvas, please go to <a href="/images.html">images</a> version.
+                </canvas>
+          </div>
+        </div>
+      </div>
+  
+<script>
+    function getMousePos(canvas, event) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top,
+  };
+}
+
+// Function to check whether a point is inside a rectangle
+function isInside(pos, rect) {
+  return pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y
+}
+     let x = 0;
+        let y = 0;
+    window.onload = async (e) => {
+        // e.preventDefault();
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        function handleThis(i) {
+            return new Promise((res) => {
+                let img = new Image()
+        img.src = `/out/${i}.png`
+        img.onload = () => {
+const theX = x;
+const theY = y;
+            console.log('img', theX, theY,64, 64)
+            ctx.drawImage(img, theX, theY,64, 64)
+            x += 64
+            if(x >= 640) {
+                y+= 64
+            x = 0;
+            }
+            const rect = {
+                x: theX,y: theY,
+                height: 64,
+                width: 64
+            }
+            canvas.addEventListener('click', function(evt) {
+  const mousePos = getMousePos(canvas, evt);
+
+  if (isInside(mousePos, rect)) {
+window.location = `/edit/${i}`
+  }
+}, false);
+canvas.addEventListener('mousemove', (evt) => {
+  const mousePos = getMousePos(canvas, evt);
+   
+    if (isInside(mousePos, rect)) {
+//   alert('sqr: '+ i + '?')
+document.getElementById('squareId').innerHTML = i;
+}
+})
+res()
+        }
+            })
+        }
+       let fi = 0;
+      for(let i = 0; i < 100;i++) {
+     await handleThis(i)
+      }
+    }
+</script>
+</body>
+</html>

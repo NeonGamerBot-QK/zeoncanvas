@@ -91,8 +91,13 @@ saveBtn.addEventListener("click", () => {
 //     a.download = prompt("Name of File?") || `sketch-${new Date().toISOString()}.png`
 //     a.click()
 //     a.remove()
-const str = `
-//WEBEDITOROVERRIDE
+const str = `//WEBEDITOROVERRIDE
+//meta:${JSON.stringify({ 
+    createdStamp: Date.now(),
+    color: ctx.fillStyle,
+    webui: true,
+    v: 1
+})}
 // the line above should not be removed in any case
 // that line specifies that it was from the WebUI
 // this code was written from the WEBuI Editor

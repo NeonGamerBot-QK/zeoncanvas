@@ -11,9 +11,9 @@ const outFolder = path.join(__dirname, 'out')
 const blocks = fs.readdirSync(srcFolder)
 const { createCanvas, loadImage } = require('canvas')
 const GitHubStrategy = require('passport-github').Strategy
-if(process.env.SERVER_PORT) {
+if (process.env.SERVER_PORT) {
   console.log('hiptero')
-require('./make_canvas')
+  require('./make_canvas')
 }
 // passport.use(new GitHubStrategy({
 //     clientID: process.env.GITHUB_CLIENT_ID,

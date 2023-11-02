@@ -1,16 +1,16 @@
-require ('dotenv').config();
-const express = require('express');
-const session = require('express-session');
-const cookieparser = require('cookie-parser');
-const passport = require('passport');
-const app = express();
-const fs = require('fs');
-const path = require('path');
-const srcFolder = path.join(__dirname, 'src', 'blocks');
-const outFolder = path.join(__dirname, 'out');
-const blocks = fs.readdirSync(srcFolder);
-const { createCanvas, loadImage } = require('canvas');
-const GitHubStrategy = require('passport-github').Strategy;
+require('dotenv').config()
+const express = require('express')
+const session = require('express-session')
+const cookieparser = require('cookie-parser')
+const passport = require('passport')
+const app = express()
+const fs = require('fs')
+const path = require('path')
+const srcFolder = path.join(__dirname, 'src', 'blocks')
+const outFolder = path.join(__dirname, 'out')
+const blocks = fs.readdirSync(srcFolder)
+const { createCanvas, loadImage } = require('canvas')
+const GitHubStrategy = require('passport-github').Strategy
 
 // passport.use(new GitHubStrategy({
 //     clientID: process.env.GITHUB_CLIENT_ID,
@@ -23,7 +23,7 @@ const GitHubStrategy = require('passport-github').Strategy;
 //   cb(null, profile)
 //   }
 // ));
-app.use(cookieparser());
+app.use(cookieparser())
 app.use(session({
   // this should be changed to something cryptographically secure for production
   secret: 'keyboard cat',
@@ -38,17 +38,17 @@ app.use(session({
   cookie: {
     httpOnly: true,
     // the duration in milliseconds that the cookie is valid
-    maxAge: 20 * 60 * 1000, // 20 minutes
+    maxAge: 20 * 60 * 1000 // 20 minutes
     // recommended you use this setting in production if you have a well-known domain you want to restrict the cookies to.
     // domain: 'your.domain.com',
     // recommended you use this setting in production if your site is published using HTTPS
     // secure: true,
   }
-}));
+}))
 // passport.serializeUser(function(user, done) {
 //     done(null, user);
 //   });
-  
+
 //   passport.deserializeUser(function(user, done) {
 //     done(null, user);
 //   });
@@ -62,26 +62,26 @@ app.use(session({
 // app.get('/auth/github',
 //   passport.authenticate('github'));
 
-// app.get('/auth/github/callback', 
+// app.get('/auth/github/callback',
 //   passport.authenticate('github', { failureRedirect: '/login' }),
 //   function(req, res) {
 //     // Successful authentication, redirect home.
 //     res.redirect('/');
 //   });
-app.get('/out/:id', (req,res) => {
-    const id = req.params.id.replace('.png', '');
-    console.log(id)
-    if(!fs.existsSync(path.join(outFolder, `${id}.png`))) return res.status(404).send('Not found');
-    res.sendFile(path.join(outFolder, `${id}.png`));
+app.get('/out/:id', (req, res) => {
+  const id = req.params.id.replace('.png', '')
+  console.log(id)
+  if (!fs.existsSync(path.join(outFolder, `${id}.png`))) return res.status(404).send('Not found')
+  res.sendFile(path.join(outFolder, `${id}.png`))
 })
-app.get('/edit/:id', (req,res) => {
-    res.sendFile(path.join(__dirname, 'edit.html'));
+app.get('/edit/:id', (req, res) => {
+  res.sendFile(path.join(__dirname, 'edit.html'))
 })
-app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'))
 })
-app.get('/api/user', (req,res) => {
-    res.json(req.user);
+app.get('/api/user', (req, res) => {
+  res.json(req.user)
 })
 // app.get('/oauth', (req,res) => {
 //     res.redirect(gapp.getWebFlowAuthorizationUrl({

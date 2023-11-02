@@ -12,17 +12,17 @@ const blocks = fs.readdirSync(srcFolder);
 const { createCanvas, loadImage } = require('canvas');
 const GitHubStrategy = require('passport-github').Strategy;
 
-passport.use(new GitHubStrategy({
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/github/callback"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-  profile.accessToken = accessToken;
-  profile.refreshToken = refreshToken;
-  cb(null, profile)
-  }
-));
+// passport.use(new GitHubStrategy({
+//     clientID: process.env.GITHUB_CLIENT_ID,
+//     clientSecret: process.env.GITHUB_CLIENT_SECRET,
+//     callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+//   },
+//   function(accessToken, refreshToken, profile, cb) {
+//   profile.accessToken = accessToken;
+//   profile.refreshToken = refreshToken;
+//   cb(null, profile)
+//   }
+// ));
 app.use(cookieparser());
 app.use(session({
   // this should be changed to something cryptographically secure for production
@@ -45,29 +45,29 @@ app.use(session({
     // secure: true,
   }
 }));
-passport.serializeUser(function(user, done) {
-    done(null, user);
-  });
+// passport.serializeUser(function(user, done) {
+//     done(null, user);
+//   });
   
-  passport.deserializeUser(function(user, done) {
-    done(null, user);
-  });
+//   passport.deserializeUser(function(user, done) {
+//     done(null, user);
+//   });
 
   // initialize passport. this is required, after you set up passport but BEFORE you use passport.session (if using)
-  app.use(passport.initialize());
+  // app.use(passport.initialize());
   // only required if using sessions. this will add middleware from passport
   // that will serialize/deserialize the user from the session cookie and add
   // them to req.user
-  app.use(passport.session());
-app.get('/auth/github',
-  passport.authenticate('github'));
+//   app.use(passport.session());
+// app.get('/auth/github',
+//   passport.authenticate('github'));
 
-app.get('/auth/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
+// app.get('/auth/github/callback', 
+//   passport.authenticate('github', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect('/');
+//   });
 app.get('/out/:id', (req,res) => {
     const id = req.params.id.replace('.png', '');
     console.log(id)
@@ -90,4 +90,4 @@ app.get('/api/user', (req,res) => {
 //         "public_repo", 'pull_requests:write', 'pull_requests:read'],
 //       }).url)
 // })
-app.listen(3000)
+app.listen(process.env.PORT || process.env.SERVER_PORT || 3000)

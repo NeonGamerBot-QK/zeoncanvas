@@ -1,1 +1,8 @@
-@username @collaborateUsername
+## Codeowners files.
+/tests/* @NeonGamerBot-QK
+.github @NeonGamerBot-QK
+make_canvas.js @NeonGamerBot-QK
+reset_and_make.js @NeonGamerBot-QK
+server.js @NeonGamerBot-QK
+fill_files.js @NeonGamerBot-QK
+*.html @NeonGamerBot-QK

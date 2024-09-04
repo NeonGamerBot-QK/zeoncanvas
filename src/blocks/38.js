@@ -5,4 +5,5 @@ module.exports = (ctx) => {
   ctx.fillStyle = '#bedabe'
   ctx.rect(0, 0, 64, 64)
   ctx.fill()
+    a lit error
 }
